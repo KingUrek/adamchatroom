@@ -6,7 +6,7 @@ import io from "socket.io-client";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import SignModal from "./components/SignModal";
 
-const socket = io();
+const socket = io("http://localhost:8080/");
 socket.on("connect", () => {
   console.log("Soket with the server is open");
 });
@@ -15,7 +15,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: [],
+      messages: [],
       users: [],
       user: "",
     };
@@ -31,12 +31,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log("rodou o useEffect 1");
     socket.on("user", (data) => this.setState({ users: data }));
     socket.on("send message", (data) => {
-      this.setState((m) => ({
-        message: [...m.message, `${data.user}: ${data.message}`],
-      }));
+      console.log("Message received: " + data);
+      this.setState((m) => {
+        console.log(m);
+        return {
+          messages: [...m.messages, `${data.user}: ${data.message}`],
+        };
+      });
     });
   }
 
@@ -63,7 +66,7 @@ class App extends React.Component {
                 {...props}
                 user={this.state.user}
                 sendMessage={this.sendMessage}
-                otherMessages={this.state.message}
+                messages={this.state.messages}
               />
             </div>
           )}

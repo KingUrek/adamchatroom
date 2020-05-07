@@ -22,7 +22,7 @@ export default function TextArea(props) {
       <p>{props.match.params.roomId}</p>
       <div className="message-area">
         <ul style={{ listStyle: "none" }}>
-          {props.otherMessages.map((m) => (
+          {props.messages.map((m) => (
             <li key={_.uniqueId()}>{m}</li>
           ))}
         </ul>
