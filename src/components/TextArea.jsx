@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import { connect } from 'react-redux'
 import "../style/TextArea.css";
 import Message from "./Message"
+import EmojiOpener from "./EmojiOpener";
 const _ = require("lodash");
 
 function TextArea({ sendMessage, user, messages, room: { name, id } }) {
@@ -16,6 +17,10 @@ function TextArea({ sendMessage, user, messages, room: { name, id } }) {
   function sendButton(e) {
     e.preventDefault();
     handleSubmit();
+  }
+
+  function addEmoji(emoji) {
+    setMessage(message + emoji)
   }
 
   return (
@@ -32,6 +37,7 @@ function TextArea({ sendMessage, user, messages, room: { name, id } }) {
         </ul>
       </div>
       <form onSubmit={sendButton} autoComplete="off">
+        <EmojiOpener emojiSelector={addEmoji} />
         <TextField
           onChange={(event) => setMessage(event.target.value)}
           value={message}
