@@ -3,7 +3,7 @@ let mongoose = require("mongoose");
 let messages = new mongoose.Schema({
   user: String,
   date: { type: Date, default: Date.now },
-  room: Number,
+  room: { name: String, id: Number },
   message: String,
 });
 

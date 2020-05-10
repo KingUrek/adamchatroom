@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import OnlineUser from "./OnlineUser";
 import AlignItemsList from "./AlignListItems";
+import { connect } from "react-redux";
 let _ = require("lodash");
 
-export default class OnlineList extends Component {
+class OnlineList extends Component {
   render() {
+    const { usersOnline } = this.props
     return (
       <div className="userList">
-        <h3>Usuários online</h3>
+        {/* <h3>Usuários online</h3> */}
         <AlignItemsList>
-          {this.props.users.map((usr) => (
+          {usersOnline.map((usr) => (
             <OnlineUser key={_.uniqueId()} user={usr.user} />
           ))}
         </AlignItemsList>
@@ -17,3 +19,12 @@ export default class OnlineList extends Component {
     );
   }
 }
+
+function mapState(state) {
+  const { usersOnline } = state
+  return {
+    usersOnline
+  }
+}
+
+export default connect(mapState)(OnlineList)

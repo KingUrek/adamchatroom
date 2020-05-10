@@ -3,13 +3,12 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import "../style/SignModal.css";
 import { useHistory } from "react-router-dom";
-import RoomSelect from "./RoomSelect";
+import { connect } from 'react-redux'
 
-export default function SignModal(props) {
+function SignModal({ dispatch, socket }) {
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState("");
   const [username, setUsername] = useState("");
-  const [room, setRoom] = useState("");
   const history = useHistory();
 
   function handleSubmit(e) {
@@ -18,8 +17,10 @@ export default function SignModal(props) {
       setError(true);
       setHelperText("Choose an username");
     } else {
-      props.setUser({ user: username, room });
-      history.push("/rooms/" + room);
+      dispatch({ type: 'SET_USER', user: username })
+      socket.emit("userON", { user: username, id: socket.id });
+
+      history.push("/rooms");
     }
   }
 
@@ -37,8 +38,6 @@ export default function SignModal(props) {
           onChange={(e) => setUsername(e.target.value)}
         />
         <br />
-        <RoomSelect setRoom={setRoom} />
-        <br />
 
         <Button
           className="sendButton"
@@ -52,3 +51,5 @@ export default function SignModal(props) {
     </div>
   );
 }
+
+export default connect()(SignModal)

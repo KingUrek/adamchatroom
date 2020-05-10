@@ -1,10 +1,11 @@
 import React from "react";
 import "./style/App.css";
-import OnlineList from "./components/OnlineList";
 import TextArea from "./components/TextArea";
 import io from "socket.io-client";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import SignModal from "./components/SignModal";
+import { connect } from 'react-redux'
+import Navigator from './components/Navigator'
 
 const socket = io("http://localhost:8080/");
 socket.on("connect", () => {
@@ -15,60 +16,59 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [],
       users: [],
-      user: "",
+
     };
-    this.setUser = this.setUser.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
-  }
 
-  setUser(user) {
-    this.setState({ ...user }, () => {
-      socket.emit("userON", { user: this.state.user, id: socket.id });
-      socket.emit("join", this.state.room);
-    });
-  }
 
+  }
   componentDidMount() {
-    socket.on("user", (data) => this.setState({ users: data }));
-    socket.on("send message", (data) => {
-      console.log("Message received: " + data);
-      this.setState((m) => {
-        console.log(m);
-        return {
-          messages: [...m.messages, `${data.user}: ${data.message}`],
-        };
-      });
+
+    socket.on("change_messages", (data) => {
+      console.log("change_messages event: " + data);
+      this.props.dispatch({ type: 'CHANGE_MESSAGES', message: data })
+    })
+
+    socket.on("user", (data) => {
+      console.log("user event")
+      this.props.dispatch({ type: 'SET_USERS_ONLINE', usersOnline: data })
     });
+    socket.on("send message", (data) => {
+      console.log('send message event:' + data);
+      this.props.dispatch({ type: 'SET_NEW_MESSAGE', message: data })
+
+    });
+
   }
 
   sendMessage(message) {
     console.log(
-      "enviando a menssagem " + message + "para a sala" + this.state.room
+      "enviando a menssagem " + message + " para a sala " + this.props.room
     );
-    socket.emit("send message", { ...message, room: this.state.room });
+    console.log({ ...message, room: this.props.room })
+    socket.emit("send message", { ...message, room: this.props.room });
   }
 
   render() {
     return (
       <Router>
         <Route exact path={"/"}>
-          <SignModal setUser={this.setUser} />
+          <SignModal socket={socket} />
         </Route>
 
         <Route
-          path="/rooms/:roomId"
+          path="/rooms"
           render={(props) => (
-            <div className="app">
-              <OnlineList users={this.state.users}></OnlineList>
-              <TextArea
-                {...props}
-                user={this.state.user}
-                sendMessage={this.sendMessage}
-                messages={this.state.messages}
-              />
-            </div>
+            !this.props.user ? <Redirect to="/" /> :
+
+              (<div className="app">
+                <Navigator socket={socket} />
+                {this.props.room ? (<TextArea
+                  {...props}
+                  sendMessage={this.sendMessage}
+                />) : <p>choose A room</p>}
+              </div>)
           )}
         ></Route>
       </Router>
@@ -76,4 +76,9 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapState(state) {
+  const { room, user } = state;
+  return { room, user }
+}
+
+export default connect(mapState)(App);

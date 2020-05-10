@@ -1,6 +1,6 @@
 .app {
   display: grid;
-  grid-template-columns: 170px auto;
+  grid-template-columns: 400px auto;
 }
 .userList {
   overflow: hidden;

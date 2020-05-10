@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { connect } from 'react-redux'
 import "../style/TextArea.css";
+import Message from "./Message"
 const _ = require("lodash");
 
-export default function TextArea(props) {
+function TextArea({ sendMessage, user, messages, room: { name, id } }) {
   const [message, setMessage] = useState("");
 
   function handleSubmit() {
-    const { sendMessage, user } = props;
     sendMessage({ user, message });
     setMessage("");
   }
@@ -19,15 +20,18 @@ export default function TextArea(props) {
 
   return (
     <div className="chat">
-      <p>{props.match.params.roomId}</p>
+      <p style={{ fontSize: 23, fontWeight: 500, marginBlockStart: 0, marginBlockEnd: 0, fontFamily: 'roboto' }}> {name}</p>
       <div className="message-area">
         <ul style={{ listStyle: "none" }}>
-          {props.messages.map((m) => (
-            <li key={_.uniqueId()}>{m}</li>
-          ))}
+          {messages.map((m) => {
+
+
+            return <li key={_.uniqueId()}><Message {...m} /></li>
+
+          })}
         </ul>
       </div>
-      <form onSubmit={sendButton}>
+      <form onSubmit={sendButton} autoComplete="off">
         <TextField
           onChange={(event) => setMessage(event.target.value)}
           value={message}
@@ -51,6 +55,15 @@ export default function TextArea(props) {
           Send
         </Button>
       </form>
-    </div>
+    </div >
   );
 }
+
+function mapState(state) {
+  const { user, room, messages } = state
+  return {
+    room, user, messages
+  }
+}
+
+export default connect(mapState)(TextArea)
