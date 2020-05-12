@@ -6,7 +6,7 @@ let roomSchema = require("./models/room");
 
 //inicializando variáveis
 let app = express();
-let port = process.env.SERVER_PORT || 8080;
+let port = process.env.PORT || 8080;
 let server = app.listen(port, () => {
   console.log("listen to the port:" + port);
 });
