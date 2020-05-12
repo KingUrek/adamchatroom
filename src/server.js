@@ -13,7 +13,7 @@ let server = app.listen(port, () => {
 let onlineUsers = [];
 let messageModel, roomModel;
 
-// app.use(express.static(__dirname + "/../build"));
+app.use(express.static(__dirname + "/../build"));
 
 //inicializando socket e banco de dados
 let io = require("socket.io")(server);

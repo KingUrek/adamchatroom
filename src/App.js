@@ -7,7 +7,7 @@ import SignModal from "./components/SignModal";
 import { connect } from 'react-redux'
 import Navigator from './components/Navigator'
 
-const socket = io("http://localhost:8080/");
+const socket = io();
 socket.on("connect", () => {
   console.log("Soket with the server is open");
 });
