@@ -9,7 +9,7 @@ import ComputerIcon from "@material-ui/icons/Computer";
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
-    maxWidth: 500,
+    maxWidth: 500
   },
 });
 

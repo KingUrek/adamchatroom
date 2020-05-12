@@ -2,6 +2,7 @@ require("dotenv").config();
 let express = require("express");
 let mongoose = require("mongoose");
 let messageSchema = require("./models/menssage");
+let roomSchema = require("./models/room");
 
 //inicializando variáveis
 let app = express();
@@ -10,7 +11,7 @@ let server = app.listen(port, () => {
   console.log("listen to the port:" + port);
 });
 let onlineUsers = [];
-let messageModel;
+let messageModel, roomModel;
 
 // app.use(express.static(__dirname + "/../build"));
 
@@ -25,6 +26,7 @@ mongoose
   .then(() => {
     console.log('mongodb is connected')
     messageModel = mongoose.model("messageModel", messageSchema);
+    roomModel = mongoose.model("roomModel", roomSchema);
   });
 
 io.on("connection", (socket) => {
@@ -40,6 +42,8 @@ io.on("connection", (socket) => {
     onlineUsers = onlineUsers.filter((e) => e.id !== data.id);
     onlineUsers.push(data);
     io.emit("user", onlineUsers);
+    let rooms = await roomModel.find({}).exec();
+    rooms.forEach((room) => io.emit("add_room", room))
 
   });
   socket.on("disconnect", () => {
@@ -60,5 +64,13 @@ io.on("connection", (socket) => {
     io.to(data).emit("change_messages", savedMessages)
 
   });
+
+  socket.on('create_room', (data) => {
+    console.log('New Room: ' + data.name)
+    io.emit("add_room", data)
+    let room = new roomModel({ ...data });
+    room.save().then('New room in the db')
+
+  })
 
 });

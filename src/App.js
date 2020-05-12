@@ -40,6 +40,11 @@ class App extends React.Component {
 
     });
 
+    socket.on("add_room", (data) => {
+      console.log('add_room event:' + data);
+      this.props.dispatch({ type: 'CREATE_ROOM', room: data })
+    })
+
   }
 
   sendMessage(message) {
@@ -67,7 +72,7 @@ class App extends React.Component {
                 {this.props.room ? (<TextArea
                   {...props}
                   sendMessage={this.sendMessage}
-                />) : <p>choose A room</p>}
+                />) : <p className="choose_room">Choose a room</p>}
               </div>)
           )}
         ></Route>

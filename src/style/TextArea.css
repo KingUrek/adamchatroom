@@ -7,3 +7,16 @@
 .chat{
   margin: 0 20px 20px 20px;
 }
+
+.image-message{
+  max-width: 40%;
+}
+
+.tools{
+  margin-left: 10px;
+  width: 130px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+}

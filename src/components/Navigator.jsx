@@ -3,9 +3,9 @@ import Navigationtab from "./NavigationTab";
 import { connect } from 'react-redux'
 import "../style/Navigator.css";
 import OnlineList from "./OnlineList";
-import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
+
 import Room from "./Room";
+import NewRoomButton from "./NewRoomButton";
 
 
 function Navigator({ rooms, usersOnline, socket }) {
@@ -17,13 +17,8 @@ function Navigator({ rooms, usersOnline, socket }) {
       return (
         <div>
           {rooms.map(room => <Room key={room.id} {...room} socket={socket}></Room>)}
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<AddIcon />}
-          >
-            New Room
-      </Button>
+
+          <NewRoomButton socket={socket}></NewRoomButton>
 
         </div>)
     }
@@ -34,9 +29,13 @@ function Navigator({ rooms, usersOnline, socket }) {
 
 
   return (
-    <div className="navigator">
+    <div className="navigator-wrap">
       <Navigationtab onChange={(e) => setTab(e)} />
-      {tabRender()}
+      <div className="navigator">
+        {tabRender()}
+
+      </div>
+
 
 
     </div>

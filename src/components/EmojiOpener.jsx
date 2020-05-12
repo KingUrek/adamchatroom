@@ -13,7 +13,7 @@ export default function EmojiOpener({ emojiSelector }) {
     return (
         <div>
 
-            <InsertEmoticonIcon style={{ cursor: "pointer" }} onClick={() => setOpen(true)} />
+            <InsertEmoticonIcon fontSize={"medium"} style={{ cursor: "pointer" }} onClick={() => setOpen(true)} />
 
             <Popover open={open} onClose={() => setOpen(false)}
                 anchorOrigin={{

@@ -5,7 +5,7 @@ import { createStore } from "redux";
 let initialState = {
   usersOnline: [],
   user: '',
-  rooms: [{ name: 'Main Room', id: 0 }, { name: 'Trybe Room', id: 1 }, { name: "Jackson's Room", id: 2 }],
+  rooms: [{ name: 'Main Room', id: '1iXsfIsN2jivzfV6VpHCy57Efui9hI' }, { name: 'Trybe Room', id: 1 }, { name: "Jackson's Room", id: 2 }],
   room: false,
   messages: []
 };
@@ -32,6 +32,9 @@ function reducer(state = initialState, action) {
 
     case 'CHANGE_MESSAGES':
       return { ...state, messages: message }
+
+    case 'CREATE_ROOM':
+      return { ...state, rooms: [...state.rooms, room] }
 
     default:
       return state
