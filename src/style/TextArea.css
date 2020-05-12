@@ -20,3 +20,8 @@
   flex-direction: row;
   justify-content:space-between;
 }
+
+.user__p{
+  margin-block-end: 0;
+  margin-left: 0;
+}

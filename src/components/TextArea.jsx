@@ -59,7 +59,7 @@ function TextArea({ sendMessage, user, messages, room: { name, id } }) {
             }
             if (m.image) {
               return <li key={_.uniqueId()}>
-                <p sytle={{ marginBlockEnd: 0, margin: 0 }} className="user">{m.user + ": "}</p>
+                <p className="user__p">{m.user + ": "}</p>
                 <img className="image-message" src={m.image} alt='some pic'></img></li>
             }
 
