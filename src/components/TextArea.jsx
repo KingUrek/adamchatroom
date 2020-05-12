@@ -47,18 +47,19 @@ function TextArea({ sendMessage, user, messages, room: { name, id } }) {
               if (m._id) {
                 let buff = (Buffer.from(m.audio.data))
                 return <li key={_.uniqueId()}>
-                  <span>{m.user + ": "}</span>
+                  <span className="user">{m.user + ": "}</span>
+
                   <AudioFile blob={buff}></AudioFile></li>
 
               }
               return <li key={_.uniqueId()}>
-                <span>{m.user + ": "}</span>
+                <span className="user">{m.user + ": "}</span>
                 <AudioFile blob={m.audio}></AudioFile></li>
 
             }
             if (m.image) {
               return <li key={_.uniqueId()}>
-                <span>{m.user + ": "}</span>
+                <p className="user">{m.user + ": "}</p>
                 <img className="image-message" src={m.image} alt='some pic'></img></li>
             }
 
