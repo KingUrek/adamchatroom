@@ -24,4 +24,8 @@
 .user__p{
   margin-block-end: 0;
   margin-left: 0;
+
+    font-size: larger;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
 }
