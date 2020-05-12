@@ -28,7 +28,8 @@
     "vmsg": "^0.3.6"
   },
   "scripts": {
-    "start": "node src/server.js",
+    "start": "react-scripts start",
+    "dev": "node src/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

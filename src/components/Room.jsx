@@ -9,7 +9,7 @@ function Room({ name, id, users, room, dispatch, socket }) {
 
   }
   return (
-    <div className={name === room.name ? "room-wrap selected" : "room-wrap"} onClick={setRoom}>
+    <div className={id === room.id ? "room-wrap selected" : "room-wrap"} onClick={setRoom}>
       <p className="room-title">{name}</p>
       <p className="users-online">{`${users.filter(usr => usr.roomID === id).length} users online`} </p>
     </div >

@@ -8,8 +8,7 @@ class OnlineList extends Component {
   render() {
     const { usersOnline } = this.props
     return (
-      <div className="userList">
-        {/* <h3>Usuários online</h3> */}
+      <div style={{ marginTop: 10 }} className="userList">
         <AlignItemsList>
           {usersOnline.map((usr) => (
             <OnlineUser key={_.uniqueId()} user={usr.user} />

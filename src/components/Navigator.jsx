@@ -8,7 +8,7 @@ import Room from "./Room";
 import NewRoomButton from "./NewRoomButton";
 
 
-function Navigator({ rooms, usersOnline, socket }) {
+function Navigator({ rooms, socket }) {
   const [tab, setTab] = useState(0)
 
 
@@ -43,7 +43,7 @@ function Navigator({ rooms, usersOnline, socket }) {
 }
 
 function mapState(state) {
-  const { rooms, usersOnline } = state
-  return { rooms, usersOnline }
+  const { rooms } = state
+  return { rooms }
 }
 export default connect(mapState)(Navigator)

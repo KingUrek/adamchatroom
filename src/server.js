@@ -3,6 +3,7 @@ let express = require("express");
 let mongoose = require("mongoose");
 let messageSchema = require("./models/menssage");
 let roomSchema = require("./models/room");
+let updateSchema = require("./models/update");
 
 //inicializando variáveis
 let app = express();
@@ -11,7 +12,7 @@ let server = app.listen(port, () => {
   console.log("listen to the port:" + port);
 });
 let onlineUsers = [];
-let messageModel, roomModel;
+let messageModel, roomModel, updateModel;
 
 app.use(express.static(__dirname + "/../build"));
 
@@ -27,7 +28,28 @@ mongoose
     console.log('mongodb is connected')
     messageModel = mongoose.model("messageModel", messageSchema);
     roomModel = mongoose.model("roomModel", roomSchema);
+    updateModel = mongoose.model('updateModel', updateSchema)
+    setInterval(() => {
+      updateModel.aggregate([{ $project: { time: { $subtract: ["$$NOW", "$lastUpdate"] } } },
+      { $match: { time: { $gt: 86400000 } } }])
+        .then(e => {
+          if (e.length) {
+            messageModel.deleteMany({}, () => console.log('all messages are deleted'))
+            roomModel.deleteMany({}, () => console.log('all rooms are deleted'))
+            updateModel.updateOne({}, { $set: { lastUpdate: new Date() } })
+          }
+
+        })
+
+    }, 3600000)
+
+
+
   });
+
+
+
+
 
 io.on("connection", (socket) => {
   console.log("The socket " + socket.id + " connected");
