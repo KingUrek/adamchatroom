@@ -1,20 +1,7 @@
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import React, { useState } from 'react'
-import ImageUploader from "react-images-upload";
 import '../style/ImageSender.css'
 
-
-function leisso(file) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload = function (e) {
-        console.log(e.target.result);
-    };
-
-
-
-}
 
 
 

@@ -26,32 +26,29 @@ class App extends React.Component {
   componentDidMount() {
 
     socket.on("change_messages", (data) => {
-      console.log("change_messages event: " + data);
+
       this.props.dispatch({ type: 'CHANGE_MESSAGES', message: data })
     })
 
     socket.on("user", (data) => {
-      console.log("user event")
+
       this.props.dispatch({ type: 'SET_USERS_ONLINE', usersOnline: data })
     });
     socket.on("send message", (data) => {
-      console.log('send message event:' + data);
+
       this.props.dispatch({ type: 'SET_NEW_MESSAGE', message: data })
 
     });
 
     socket.on("add_room", (data) => {
-      console.log('add_room event:' + data);
+
       this.props.dispatch({ type: 'CREATE_ROOM', room: data })
     })
 
   }
 
   sendMessage(message) {
-    console.log(
-      "enviando a menssagem " + message + " para a sala " + this.props.room
-    );
-    console.log({ ...message, room: this.props.room })
+
     socket.emit("send message", { ...message, room: this.props.room });
   }
 
